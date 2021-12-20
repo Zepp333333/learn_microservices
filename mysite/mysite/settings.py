@@ -79,9 +79,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'OPTIONS': {
-            # 'service': 'my_service',
-            # 'passfile': '.pgpass',
-        # }
+        #     'service': 'my_service',
+        # 'passfile': '.pgpass',
+        # },
         'NAME': 'mysite_db',
         'USER': 'postgres',
         'PASSWORD': '123',
@@ -89,13 +89,14 @@ DATABASES = {
         'PORT': '54320',
 
         'TEST': {
+            #     'OPTIONS': {'service': 'dj_test'}
             'NAME': 'mytestdatabase',
             'USER': 'postgres',
             'PASSWORD': '123',
             'HOST': '127.0.0.1',
             'PORT': '54320',
         }
-    }
+    },
 }
 
 # Password validation
