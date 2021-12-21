@@ -27,3 +27,8 @@ class Pizza(models.Model):
 class Likes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'pizza'], name='unique_like')
+        ]

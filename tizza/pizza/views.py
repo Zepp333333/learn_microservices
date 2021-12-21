@@ -1,6 +1,7 @@
 import json
 
 from django.db.models import ObjectDoesNotExist
+from django.db.utils import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.decorators import decorator_from_middleware
@@ -78,3 +79,25 @@ def random(request):
     ]
 
     return HttpResponse(json.dumps(content))
+
+
+@login_required
+def like_pizza(request, pid):
+    user = request.user
+    pizza = Pizza.objects.get(id=pid)
+    try:
+        new_like = Likes.objects.create(user=user, pizza=pizza)
+    except IntegrityError as e:
+        print(e)
+        return HttpResponse({'You have already liked this pizza.'})
+    return HttpResponse({'Like recorded.'})
+
+
+def dislike_pizza(request, pid):
+    user = request.user
+    pizza = Pizza.objects.get(id=pid)
+    like = Likes.objects.filter(user=user, pizza=pizza).first()
+    if like is None:
+        return HttpResponse({"Like does not exist."})
+    like.delete()
+    return HttpResponse({"Dislike recorded."})
